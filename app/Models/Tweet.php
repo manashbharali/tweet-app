@@ -11,4 +11,9 @@ class Tweet extends Model
 
     protected $guarded = [];
 
+    public function path()
+    {
+        return '/tweets/'. $this->id;
+    }
+
 }
