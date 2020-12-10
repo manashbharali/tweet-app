@@ -1,9 +1,9 @@
 <?php
-
 namespace Tests\Feature;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 use App\Models\Tweet;
+use App\Models\User;
 
 class TweetManagementTest extends TestCase
 {	
@@ -11,7 +11,7 @@ class TweetManagementTest extends TestCase
 	/** @test */ 
 	public function a_tweet_can_be_added()
 	{	
-		$this->withoutExceptionHandling();
+		// $this->withoutExceptionHandling();
 		$response = $this->post('/tweets', $this->data());
 		$tweet = Tweet::first();
 		$this->assertCount(1, Tweet::all());
@@ -57,11 +57,11 @@ class TweetManagementTest extends TestCase
 			$response = $this->patch($tweet->path(), [
 				'tweet_title' => 'First tweet',
 				'tweet_body' => 'I can post whatever i want',
-				'tweet_user' => 'John Doe',
+				'tweet_user' => '.$this->user_id().',
 			]);
 			$this->assertEquals('First tweet', Tweet::first()->tweet_title);
 			$this->assertEquals('I can post whatever i want', Tweet::first()->tweet_body);
-			$this->assertEquals('John Doe', Tweet::first()->tweet_user);
+			$this->assertEquals('.$this->user_id().', Tweet::first()->tweet_user);
 			$response->assertRedirect($tweet->path());
 		}
 
@@ -76,13 +76,20 @@ class TweetManagementTest extends TestCase
 			$response->assertRedirect('/tweets');
 		}
 
-		private function data()
-		{
+		private function user_id(){
+			$user = User::factory()->create();
+			$this->post('/login', [
+				'email' => $user->email,
+				'password' => 'password',
+			]);
+			return User::first()->id;
+		}
+
+		private function data(){
 			return [
 				'tweet_title' => 'My first tweet',
 				'tweet_body' => 'Yay! I can post whatever i want',
-				'tweet_user' => 'John Doe',
+				'tweet_user' => $this->user_id(),
 			];
 		}
-
 }

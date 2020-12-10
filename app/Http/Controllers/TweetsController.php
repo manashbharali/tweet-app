@@ -7,6 +7,13 @@ use App\Models\Tweet;
 
 class TweetsController extends Controller
 {
+    public function __construct(){
+        $this->middleware('auth');
+    }
+    
+    public function create(){
+        return view('tweet.create');
+    }
 
     public function store(){
         $tweet = Tweet::create($this->validateRequest());

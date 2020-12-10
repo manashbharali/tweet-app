@@ -10,17 +10,6 @@ use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\VerifyEmailController;
 use Illuminate\Support\Facades\Route;
 
-use App\Http\Controllers\TweetsController;
-
-
-Route::post('/tweets', [TweetsController::class, 'store'])
-                    ->name('tweet.store');
-Route::patch('/tweets/{tweet}', [TweetsController::class, 'update'])
-                    ->name('tweet.update');
-Route::delete('/tweets/{tweet}', [TweetsController::class, 'destroy'])
-                    ->name('tweet.delete');
-
-// laravel breeze
 Route::get('/register', [RegisteredUserController::class, 'create'])
                 ->middleware('guest')
                 ->name('register');
