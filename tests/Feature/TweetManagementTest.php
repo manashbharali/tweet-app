@@ -11,7 +11,7 @@ class TweetManagementTest extends TestCase
 	/** @test */ 
 	public function a_tweet_can_be_added()
 	{	
-		// $this->withoutExceptionHandling();
+		$this->withoutExceptionHandling();
 		$response = $this->post('/tweets', $this->data());
 		$tweet = Tweet::first();
 		$this->assertCount(1, Tweet::all());
@@ -39,13 +39,13 @@ class TweetManagementTest extends TestCase
 		}
 
 		/** @test */
-		public function a_tweet_author_is_required()
+		public function a_tweet_user_is_required()
 		{
 			// $this->withoutExceptionHandling();
 			$response = $this->post('/tweets',  array_merge($this->data(), [
-				'tweet_author' => '',
+				'tweet_user' => '',
 			]));
-			$response->assertSessionHasErrors('tweet_author');
+			$response->assertSessionHasErrors('tweet_user');
 		}
 
 		/** @test */ 
@@ -57,11 +57,11 @@ class TweetManagementTest extends TestCase
 			$response = $this->patch($tweet->path(), [
 				'tweet_title' => 'First tweet',
 				'tweet_body' => 'I can post whatever i want',
-				'tweet_author' => 'John Doe',
+				'tweet_user' => 'John Doe',
 			]);
 			$this->assertEquals('First tweet', Tweet::first()->tweet_title);
 			$this->assertEquals('I can post whatever i want', Tweet::first()->tweet_body);
-			$this->assertEquals('John Doe', Tweet::first()->tweet_author);
+			$this->assertEquals('John Doe', Tweet::first()->tweet_user);
 			$response->assertRedirect($tweet->path());
 		}
 
@@ -81,7 +81,7 @@ class TweetManagementTest extends TestCase
 			return [
 				'tweet_title' => 'My first tweet',
 				'tweet_body' => 'Yay! I can post whatever i want',
-				'tweet_author' => 'John Doe',
+				'tweet_user' => 'John Doe',
 			];
 		}
 

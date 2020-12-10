@@ -17,7 +17,7 @@ class CreateTweetsTable extends Migration
             $table->id();
             $table->string('tweet_title');
             $table->mediumText('tweet_body');
-            $table->string('tweet_author');
+            $table->string('tweet_user');
             $table->timestamps();
         });
     }

@@ -7,7 +7,7 @@ use App\Models\Tweet;
 
 class TweetsController extends Controller
 {
-    
+
     public function store(){
         $tweet = Tweet::create($this->validateRequest());
         return redirect($tweet->path());
@@ -28,7 +28,7 @@ class TweetsController extends Controller
         return request()->validate([
             'tweet_title' =>'required|string',
             'tweet_body' =>'required|string',
-            'tweet_author' => 'required',
+            'tweet_user' => 'required',
         ]);
     }
 
